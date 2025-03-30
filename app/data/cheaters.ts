@@ -111,6 +111,4 @@ export const getEvidenceById = (evidenceId: string): CheaterEvidence | undefined
 
 // Stats about cheaters
 export const cheaterStats = {
-  totalReports: 0,
-  casesVerified: 0
 }; 

@@ -42,7 +42,7 @@ export default function PolicyPage() {
         "Deliberately circumventing contest rules or integrity measures.",
       ],
       conclusion:
-        "Fair competition is fundamental to the growth of all members. These rules apply equally to all members regardless of experience level or ranking. If you are unsure whether a particular action constitutes cheating, assume it does and refrain from it. Maintaining personal integrity is more valuable than any contest result.",
+        "Fair competition is fundamental to the growth of all members. If you are unsure whether a particular action constitutes cheating, assume it does and refrain from it. Maintaining personal integrity is more valuable than any contest result.",
       warning:
         "You bear the full responsibility for all actions performed using your account, even if you claim someone else accessed it. Sharing your credentials is never permitted under any circumstances.",
     },
@@ -60,7 +60,7 @@ export default function PolicyPage() {
         "Damage to personal and professional reputation within the competitive programming community.",
       ],
       conclusion:
-        "These consequences are non-negotiable and will be enforced without exception. The SUST competitive programming community takes integrity violations with the utmost seriousness. There is NO apology system and NO path to reinstatement once a cheating incident has been verified. The decision to cheat carries permanent consequences that will follow throughout your academic and professional career.",
+        "These consequences are non-negotiable and will be enforced without exception. These rules apply equally to all members regardless of experience level or ranking. The SUST competitive programming community takes integrity violations with the utmost seriousness. There is NO apology system and NO path to reinstatement once a cheating incident has been verified. The decision to cheat carries permanent consequences that will follow throughout your academic and professional career.",
     },
   };
 
@@ -106,6 +106,12 @@ export default function PolicyPage() {
               ))}
             </ul>
             <p>{policyContent.consequences.conclusion}</p>
+            <div className={styles.warningBox}>
+              <h4 className={styles.warningTitle}>⚠️ IMPORTANT NOTICE</h4>
+              <p className={styles.warningText}>
+                {policyContent.whatIsConsidered.warning}
+              </p>
+            </div>
           </div>
 
           <div className={styles.policySection}>
@@ -119,12 +125,6 @@ export default function PolicyPage() {
             </ul>
             <p>{policyContent.whatIsConsidered.conclusion}</p>
 
-            <div className={styles.warningBox}>
-              <h4 className={styles.warningTitle}>⚠️ IMPORTANT NOTICE</h4>
-              <p className={styles.warningText}>
-                {policyContent.whatIsConsidered.warning}
-              </p>
-            </div>
           </div>
         </div>
 
@@ -139,9 +139,6 @@ export default function PolicyPage() {
         <p>
           © {new Date().getFullYear()} SUST Competitive Programming Community.
           All rights reserved.
-        </p>
-        <p className={styles.attribution}>
-          Designed and developed by Mehedi & Mainul
         </p>
       </footer>
     </div>

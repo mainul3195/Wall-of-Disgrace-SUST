@@ -3,7 +3,7 @@ import Image from "next/image";
 import styles from "./homepage.module.css";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { cheatersData, getEvidenceById, cheaterStats } from "./data/cheaters";
+import { cheatersData, getEvidenceById } from "./data/cheaters";
 
 // Close Icon SVG component
 const CloseIcon = () => (
@@ -107,7 +107,7 @@ export default function Home() {
       <div className={styles.upperPart}>
         <h1 className={styles.dangerHeading}>
           <span className={styles.warningIcon}>⚠️</span>
-          WALL OF DISGRACE - SUST
+          WALL OF DISGRACE
           <span className={styles.warningIcon}>⚠️</span>
         </h1>
         <p className={styles.description}>
@@ -117,8 +117,7 @@ export default function Home() {
           participating in all SUST Competitive Programming activities. Their
           violations are publicly posted on this page and announced in all SUST
           CP community groups. Note that account holders are responsible for all
-          actions performed with their credentials, so sharing IDs or passwords
-          is strictly prohibited.
+          actions performed with account.
         </p>
         <div className={styles.buttonContainer}>
           <button
@@ -132,23 +131,6 @@ export default function Home() {
           <Link href="/policy" className={styles.policyButton}>
             Integrity Policy & Violations
           </Link>
-        </div>
-      </div>
-
-      <div className={styles.middlePart}>
-        <div className={styles.statsContainer}>
-          <div className={styles.statItem}>
-            <span className={styles.statNumber}>
-              {cheaterStats.totalReports}
-            </span>
-            <span className={styles.statLabel}>Total Reports</span>
-          </div>
-          <div className={styles.statItem}>
-            <span className={styles.statNumber}>
-              {cheaterStats.casesVerified}
-            </span>
-            <span className={styles.statLabel}>Cases Verified</span>
-          </div>
         </div>
       </div>
 
@@ -249,9 +231,6 @@ export default function Home() {
         <p>
           © {new Date().getFullYear()} SUST Competitive Programming Community.
           All rights reserved.
-        </p>
-        <p className={styles.attribution}>
-          Designed and developed by Mehedi & Mainul
         </p>
       </footer>
     </div>
