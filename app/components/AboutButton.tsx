@@ -75,7 +75,16 @@ export default function AboutButton() {
             </div>
             <div className={styles.popupBody}>
               <p>
-                Skeletoned by Mehedi, further designed and developed by Mainul.
+                Skeletoned by Mehedi, further designed and developed by{" "}
+                <a
+                  href="https://mainul3195.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.link}
+                >
+                  Mainul
+                </a>
+                .
               </p>
             </div>
             <div className={styles.popupFooter}>
