@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../homepage.module.css";
 
 // Close Icon SVG component
@@ -23,6 +23,22 @@ export default function AboutButton() {
   const toggleAboutPopup = () => {
     setIsAboutPopupVisible(!isAboutPopupVisible);
   };
+
+  // Handle body scroll locking when the about popup is open
+  useEffect(() => {
+    if (isAboutPopupVisible) {
+      // Prevent scrolling on the body
+      document.body.classList.add(styles.noScroll);
+    } else {
+      // Re-enable scrolling
+      document.body.classList.remove(styles.noScroll);
+    }
+
+    // Cleanup function to ensure scrolling is re-enabled if component unmounts
+    return () => {
+      document.body.classList.remove(styles.noScroll);
+    };
+  }, [isAboutPopupVisible]);
 
   return (
     <>
