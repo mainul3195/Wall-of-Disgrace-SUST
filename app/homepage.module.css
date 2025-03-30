@@ -30,8 +30,8 @@
 }
 
 .aboutIcon {
-    width: 30px;
-    height: 30px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     background: rgba(var(--primary), 0.2);
     color: rgb(var(--foreground));
@@ -40,7 +40,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 21px;
     font-weight: bold;
     font-style: italic;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
@@ -951,9 +951,9 @@
     }
     
     .aboutIcon {
-        width: 26px;
-        height: 26px;
-        font-size: 13px;
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
     }
 }
 
@@ -1078,9 +1078,9 @@
     }
     
     .aboutIcon {
-        width: 22px;
-        height: 22px;
-        font-size: 11px;
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
     }
     
     .listImage {
