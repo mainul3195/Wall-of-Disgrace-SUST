@@ -117,13 +117,13 @@ export default function Home() {
           participating in all SUST Competitive Programming activities. Their
           violations are publicly posted on this page and announced in all SUST
           CP community groups. Note that account holders are responsible for all
-          actions performed with account.
+          actions performed with their account.
         </p>
         <div className={styles.buttonContainer}>
           <button
             className={styles.reportButton}
             onClick={() =>
-              window.open("https://forms.gle/17QkcfyWmm4a9YPy5", "_blank")
+              window.open("https://forms.gle/kADikhePcnCydnfs9", "_blank")
             }
           >
             Report Cheating

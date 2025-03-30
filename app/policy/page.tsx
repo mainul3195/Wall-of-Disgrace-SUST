@@ -11,7 +11,7 @@ export default function PolicyPage() {
         text: "If you have evidence that someone with the SUST university tag has cheated in any programming contest, please report it using our form:",
         link: {
           text: "Report Cheater",
-          url: "https://forms.gle/17QkcfyWmm4a9YPy5",
+          url: "https://forms.gle/kADikhePcnCydnfs9",
         },
         suffix:
           ". All reports are thoroughly investigated by our disciplinary committee, and your identity will remain confidential.",
@@ -20,7 +20,7 @@ export default function PolicyPage() {
         text: "If you believe your name has been wrongfully included in the Wall of Disgrace, you may submit an appeal via this form:",
         link: {
           text: "Appeal Form",
-          url: "#",
+          url: "https://forms.gle/KHAfxNcnVuJbRDR29",
         },
         suffix:
           ". Appeals must include clear evidence disproving the allegations.",
@@ -124,7 +124,6 @@ export default function PolicyPage() {
               ))}
             </ul>
             <p>{policyContent.whatIsConsidered.conclusion}</p>
-
           </div>
         </div>
 
