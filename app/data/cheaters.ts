@@ -51,7 +51,7 @@ export const cheatersData: CheaterData[] = [
   {
     id: 1,
     date: "2025-04-24", // Using today's date as the detection date
-    codeforcesId: "-", // Using vjudge ID as a placeholder for CF ID
+    codeforcesId: "", // Using vjudge ID as a placeholder for CF ID
     vjudgeId: "https://vjudge.net/user/Fuad_2023831041",
     name: "Fuad",
     contest: "https://vjudge.net/contest/705528 (Eid Salami Contest)",
