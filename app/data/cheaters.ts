@@ -2,7 +2,7 @@
 export interface CheaterEvidence {
   id: string;
   title: string;
-  leakedCode: string;
+  submissionUrl: string;
   details: string[];
 }
 
@@ -22,7 +22,7 @@ export const evidenceDetails: CheaterEvidence[] = [
   // {
   //   id: "evidence1",
   //   title: "Evidence that rabbyxq cheated (Someone reported this and we verified)",
-  //   leakedCode: "https://codeforces.com/blog/entry/132672?#comment-1184621",
+  //   submissionUrl: "https://codeforces.com/blog/entry/132672?#comment-1184621",
   //   details: [
   //     "There is a reply to the comment which highlights how to find the cheaters.",
   //     "Notice rabbyxq's submission having the same useless condition:",
@@ -34,7 +34,7 @@ export const evidenceDetails: CheaterEvidence[] = [
   // {
   //   id: "evidence2",
   //   title: "Evidence for Rakib's cheating",
-  //   leakedCode: "https://example.com/evidence2",
+  //   submissionUrl: "https://example.com/evidence2",
   //   details: [
   //     "Multiple suspicious submissions found",
   //     "Similar code pattern with other contestants",
@@ -44,7 +44,7 @@ export const evidenceDetails: CheaterEvidence[] = [
   // {
   //   id: "evidence3",
   //   title: "Evidence of code plagiarism in Eid Salami Contest",
-  //   leakedCode: "https://example.com/evidence3",
+  //   submissionUrl: "https://example.com/evidence3",
   //   details: [
   //     "Almost identical solution structure with minor variable name changes",
   //     "Same implementation approach and algorithm choice as another participant",
@@ -55,7 +55,7 @@ export const evidenceDetails: CheaterEvidence[] = [
   // {
   //   id: "evidence4",
   //   title: "Evidence of AI usage during AtCoder contest",
-  //   leakedCode: "https://example.com/evidence4",
+  //   submissionUrl: "https://example.com/evidence4",
   //   details: [
   //     "Solution contains distinct patterns consistent with AI-generated code",
   //     "Implementation includes unnecessary optimizations typical of AI tools",

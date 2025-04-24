@@ -77,13 +77,13 @@ export default function Home() {
                   </div>
                   <div className={styles.popupBody}>
                     <p>
-                      <span className="font-bold">Leaked codes:</span>{" "}
+                      <span className="font-bold">Cheating Evidence:</span>{" "}
                       <a
-                        href={evidence.leakedCode}
+                        href={evidence.submissionUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {evidence.leakedCode}
+                        {evidence.submissionUrl}
                       </a>
                     </p>
                     {evidence.details.map((detail, index) => (
