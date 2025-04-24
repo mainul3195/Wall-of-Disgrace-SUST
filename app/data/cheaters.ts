@@ -1,112 +1,53 @@
 // Types for cheaters data
 export interface CheaterEvidence {
-  id: string;
-  title: string;
-  submissionUrl: string;
-  details: string[];
+  id: string;           // Unique identifier for the evidence (e.g., "evidence1")
+  title: string;        // A descriptive title for the evidence
+  submissionUrl: string; // URL pointing to the cheating submission/evidence
+  details: string[];    // Array of detailed points explaining the evidence
 }
 
 export interface CheaterData {
-  id: number;
-  date: string;
-  codeforcesId: string;
-  vjudgeId: string;
-  name: string;
-  contest: string;
-  evidence: string;
-  punishment: string;
+  id: number;           // Unique numeric identifier (sequential)
+  date: string;         // Date when cheating was detected (YYYY-MM-DD format)
+  codeforcesId: string; // Codeforces profile URL or username
+  vjudgeId: string;     // VJudge profile URL or username
+  name: string;         // Full name of the cheater
+  contest: string;      // Contest URL or name where cheating occurred
+  evidence: string;     // Reference to evidence ID (must match an ID in evidenceDetails)
+  punishment: string;   // Punishment details (e.g., "Permanent Ban", "1 Year Ban")
 }
 
 // Evidence details
 export const evidenceDetails: CheaterEvidence[] = [
-  // {
-  //   id: "evidence1",
-  //   title: "Evidence that rabbyxq cheated (Someone reported this and we verified)",
-  //   submissionUrl: "https://codeforces.com/blog/entry/132672?#comment-1184621",
-  //   details: [
-  //     "There is a reply to the comment which highlights how to find the cheaters.",
-  //     "Notice rabbyxq's submission having the same useless condition:",
-  //     'He probably doesn\'t even know grundy, so he thought "gr" stands for "grid".',
-  //     "Also, has a sudden rating increase, which I believe is because of cheating.",
-  //     "Previously has skipped submissions.",
-  //   ],
-  // },
-  // {
-  //   id: "evidence2",
-  //   title: "Evidence for Rakib's cheating",
-  //   submissionUrl: "https://example.com/evidence2",
-  //   details: [
-  //     "Multiple suspicious submissions found",
-  //     "Similar code pattern with other contestants",
-  //     "Unusual solving pattern detected",
-  //   ],
-  // },
-  // {
-  //   id: "evidence3",
-  //   title: "Evidence of code plagiarism in Eid Salami Contest",
-  //   submissionUrl: "https://example.com/evidence3",
-  //   details: [
-  //     "Almost identical solution structure with minor variable name changes",
-  //     "Same implementation approach and algorithm choice as another participant",
-  //     "Found matching comment structure and formatting style",
-  //     "Similar submission time stamps within minutes of each other",
-  //   ],
-  // },
-  // {
-  //   id: "evidence4",
-  //   title: "Evidence of AI usage during AtCoder contest",
-  //   submissionUrl: "https://example.com/evidence4",
-  //   details: [
-  //     "Solution contains distinct patterns consistent with AI-generated code",
-  //     "Implementation includes unnecessary optimizations typical of AI tools",
-  //     "Code structure differs significantly from contestant's previous submissions",
-  //     "Uses rare library functions and coding patterns not previously seen in contestant's history",
-  //   ],
-  // },
+  /* FORMAT EXAMPLE:
+  {
+    id: "evidence1",
+    title: "Evidence of code plagiarism in X Contest", 
+    submissionUrl: "https://example.com/submission-link",
+    details: [
+      "Identical code structure with another contestant",
+      "Same variable names and implementation approach",
+      "Multiple instances of matching code patterns",
+      "Unusual submission timing after another contestant's submission"
+    ]
+  }
+  */
 ];
 
 // Cheaters data
 export const cheatersData: CheaterData[] = [
-  // {
-  //   id: 1,
-  //   date: "2025-03-29",
-  //   codeforcesId: "https://codeforces.com/profile/rabbyxq",
-  //   vjudgeId: "https://codeforces.com/profile/rabbyxq",
-  //   name: "Hasan",
-  //   contest: "https://codeforces.com/contest/2002",
-  //   evidence: "evidence1",
-  //   punishment: "Permanent Ban",
-  // },
-  // {
-  //   id: 2,
-  //   date: "2025-03-30",
-  //   codeforcesId: "rakib123",
-  //   vjudgeId: "rakib_vj",
-  //   name: "Rakib Hossain",
-  //   contest: "Weekly #6",
-  //   evidence: "evidence2",
-  //   punishment: "2 Years Ban",
-  // },
-  // {
-  //   id: 3,
-  //   date: "2025-04-12",
-  //   codeforcesId: "https://codeforces.com/profile/ahmadSUST",
-  //   vjudgeId: "ahmad22",
-  //   name: "Ahmad Khan",
-  //   contest: "Eid Salami Contest 2025",
-  //   evidence: "evidence3",
-  //   punishment: "1 Year Ban",
-  // },
-  // {
-  //   id: 4,
-  //   date: "2025-04-15",
-  //   codeforcesId: "farhan_cp",
-  //   vjudgeId: "farhan_cp",
-  //   name: "Farhan Rahman",
-  //   contest: "https://atcoder.jp/contests/abc345",
-  //   evidence: "evidence4",
-  //   punishment: "Permanent Ban",
-  // },
+  /* FORMAT EXAMPLE:
+  {
+    id: 1,
+    date: "2023-04-15",
+    codeforcesId: "https://codeforces.com/profile/username",
+    vjudgeId: "username_vj",
+    name: "Full Name",
+    contest: "https://codeforces.com/contest/1234",
+    evidence: "evidence1",
+    punishment: "Permanent Ban"
+  }
+  */
 ];
 
 // Helper function to get evidence by ID
@@ -114,6 +55,9 @@ export const getEvidenceById = (evidenceId: string): CheaterEvidence | undefined
   return evidenceDetails.find((e) => e.id === evidenceId);
 };
 
-// Stats about cheaters
+// Stats about cheaters - can be expanded as needed
 export const cheaterStats = {
+  // Examples:
+  // totalBanned: cheatersData.length,
+  // permanentBans: cheatersData.filter(c => c.punishment.includes("Permanent")).length
 }; 
