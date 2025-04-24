@@ -502,27 +502,44 @@
 }
 
 .evidenceButton {
-    border: none;
-    cursor: pointer;
-    background: rgba(var(--secondary), 0.2);
+    padding: 6px 12px;
+    background: rgba(var(--primary), 0.2);
     color: rgb(var(--foreground));
-    padding: 8px 16px;
+    border: 1px solid rgba(var(--foreground), 0.1);
     border-radius: 20px;
-    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 0.5px;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(var(--secondary), 0.2);
+}
+
+.punishment {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    background: rgba(255, 178, 15, 0.15);
+    color: rgb(var(--foreground));
+    border: 1px solid rgba(255, 178, 15, 0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.permanentBan {
+    background: rgba(255, 59, 48, 0.15);
+    border: 1px solid rgba(255, 59, 48, 0.3);
+    color: rgb(255, 59, 48);
+    font-weight: 700;
 }
 
 .evidenceButton:hover {
+    background: rgba(var(--primary), 0.3);
     transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-    background: rgba(var(--secondary), 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .link {
@@ -561,7 +578,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -572,6 +589,16 @@
     box-sizing: border-box;
 }
 
+/* Dark theme version of popup background - more opacity */
+[data-theme="dark"] .popup {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Light theme version of popup background - less opacity */
+[data-theme="light"] .popup {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
 /* Class to prevent scrolling on body when popup is open */
 .noScroll {
     overflow: hidden;
@@ -579,7 +606,6 @@
 }
 
 .popupContent {
-    background: rgba(22, 27, 34, 0.4);
     width: 90%;
     max-width: 800px;
     max-height: 85vh;
@@ -589,25 +615,13 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(var(--foreground), 0.1);
-    box-shadow: 
-        0 25px 45px rgba(0, 0, 0, 0.3),
-        inset 0 1px 1px rgba(var(--foreground), 0.05);
+    box-shadow: 0 25px 45px var(--glass-shadow);
     color: rgb(var(--foreground));
     animation: slideIn 0.4s ease;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-}
-
-@keyframes slideIn {
-    0% {
-        transform: translateY(30px);
-        opacity: 0;
-    }
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    background: var(--glass-bg);
 }
 
 .popupContent::before {
@@ -619,30 +633,60 @@
     height: 4px;
     background: linear-gradient(90deg, rgb(var(--primary)), rgb(var(--accent)), rgb(var(--secondary)));
     z-index: 1;
+    border-radius: 20px 20px 0 0;
 }
 
 .popupHeader {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    border-bottom: 1px solid rgba(var(--foreground), 0.1);
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: none;
     padding-bottom: 15px;
     position: sticky;
     top: 0;
-    background: rgba(22, 27, 34, 0.8);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: 2;
     margin-top: -10px;
     padding-top: 10px;
+    background: var(--glass-bg);
 }
 
 .popupHeader h2 {
     color: rgb(var(--foreground));
     margin: 0;
-    font-size: 1.5rem;
-    padding-right: 20px;
+    font-size: 1.6rem;
+    padding: 0;
+    font-weight: 700;
+    background: linear-gradient(135deg, rgb(var(--primary)), rgb(var(--accent)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 2px 10px rgba(var(--primary), 0.2);
+}
+
+.popupHeader h2::after {
+    content: '';
+    position: absolute;
+    width: 70%;
+    height: 3px;
+    bottom: -8px;
+    left: 0;
+    background: linear-gradient(to right, rgb(var(--primary)), rgba(var(--primary), 0.1));
+    border-radius: 3px;
+}
+
+.popupHeader::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(var(--foreground), 0.1), transparent);
 }
 
 /* Improved close button - Top */
@@ -679,8 +723,12 @@
 }
 
 .closeButton:hover {
-    background: rgba(var(--secondary), 0.2);
+    background: rgba(var(--primary), 0.15);
     transform: rotate(90deg);
+}
+
+[data-theme="dark"] .closeButton:hover {
+    background: rgba(var(--secondary), 0.2);
 }
 
 .closeButton:hover::before {
@@ -693,37 +741,27 @@
     line-height: 1.7;
     overflow-y: auto;
     flex-grow: 1;
+    padding: 0 5px;
+    margin-top: 10px;
 }
 
 .popupBody p {
     margin: 16px 0;
+    padding-left: 5px;
+    border-left: 2px solid rgba(var(--primary), 0.2);
 }
 
 .popupBody a {
     color: rgb(var(--primary));
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     transition: all 0.3s ease;
     position: relative;
+    padding: 0 2px;
 }
 
 .popupBody a:hover {
     color: rgb(var(--accent));
-}
-
-.popupBody a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 1px;
-    bottom: -2px;
-    left: 0;
-    background: linear-gradient(90deg, rgb(var(--primary)), rgb(var(--accent)));
-    transition: width 0.3s ease;
-}
-
-.popupBody a:hover::after {
-    width: 100%;
 }
 
 .popupBody ul {
@@ -770,9 +808,19 @@
 .popupFooter {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 25px;
     padding-top: 15px;
-    border-top: 1px solid rgba(var(--foreground), 0.1);
+    position: relative;
+}
+
+.popupFooter::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(var(--foreground), 0.1), transparent);
 }
 
 /* Bottom close button */
@@ -789,12 +837,30 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.closeButtonBottom::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(var(--primary), 0.2), transparent);
+    transition: all 0.5s ease;
+    z-index: -1;
 }
 
 .closeButtonBottom:hover {
     background: rgba(var(--primary), 0.25);
     transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 15px var(--glass-shadow);
+}
+
+.closeButtonBottom:hover::before {
+    left: 100%;
 }
 
 .closeButtonBottom svg {
@@ -1403,5 +1469,16 @@
     .policySection p, 
     .policyList li {
         font-size: 15px;
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
     }
 }

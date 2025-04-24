@@ -3,6 +3,58 @@
 :root {
     min-height: 100vh;
     flex-direction: column;
+}
+
+/* Dark theme (default) */
+[data-theme="dark"] {
+    --background: 13, 17, 23;  /* Darker background */
+    --foreground: 230, 237, 243;  /* Lighter text */
+    --primary: 88, 166, 255;  /* Bright blue */
+    --secondary: 212, 70, 151;  /* Pink */
+    --accent: 121, 184, 255;  /* Light blue */
+    --glass-bg: rgba(22, 27, 34, 0.7);
+    --glass-border: rgba(48, 54, 61, 0.8);
+    --glass-shadow: rgba(0, 0, 0, 0.4);
+    
+    /* Derived variables */
+    --bg: rgb(var(--background));
+    --textColor: rgb(var(--foreground));
+    --primaryColor: rgb(var(--primary));
+    --accentColor: rgb(var(--secondary));
+    --softBg: rgba(22, 27, 34, 0.5);
+    --softTextColor: rgba(201, 209, 217, 0.8);
+    --borderColor: rgba(48, 54, 61, 0.8);
+    --shadowColor: rgba(0, 0, 0, 0.4);
+    --gradientPrimary: linear-gradient(135deg, rgb(var(--primary)) 0%, rgba(var(--primary), 0.7) 100%);
+    --gradientAccent: linear-gradient(135deg, rgb(var(--secondary)) 0%, rgba(var(--secondary), 0.7) 100%);
+}
+
+/* Light theme */
+[data-theme="light"] {
+    --background: 245, 248, 250;  /* Light background */
+    --foreground: 35, 39, 47;  /* Dark text */
+    --primary: 25, 95, 210;  /* Darker blue */
+    --secondary: 172, 36, 118;  /* Darker pink */
+    --accent: 66, 133, 244;  /* Medium blue */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(230, 230, 230, 0.8);
+    --glass-shadow: rgba(0, 0, 0, 0.1);
+    
+    /* Derived variables */
+    --bg: rgb(var(--background));
+    --textColor: rgb(var(--foreground));
+    --primaryColor: rgb(var(--primary));
+    --accentColor: rgb(var(--secondary));
+    --softBg: rgba(255, 255, 255, 0.8);
+    --softTextColor: rgba(50, 50, 50, 0.8);
+    --borderColor: rgba(200, 200, 200, 0.8);
+    --shadowColor: rgba(0, 0, 0, 0.1);
+    --gradientPrimary: linear-gradient(135deg, rgb(var(--primary)) 0%, rgba(var(--primary), 0.7) 100%);
+    --gradientAccent: linear-gradient(135deg, rgb(var(--secondary)) 0%, rgba(var(--secondary), 0.7) 100%);
+}
+
+/* Set dark mode as default if no theme is set */
+:root:not([data-theme="light"]):not([data-theme="dark"]) {
     --background: 13, 17, 23;  /* Darker background */
     --foreground: 230, 237, 243;  /* Lighter text */
     --primary: 88, 166, 255;  /* Bright blue */
@@ -38,7 +90,7 @@ body {
     background-color: var(--bg);
     color: var(--textColor);
     line-height: 1.6;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.5s ease, color 0.5s ease;
     background-image: 
         radial-gradient(ellipse at top, rgba(var(--primary), 0.15), transparent 70%),
         radial-gradient(ellipse at bottom, rgba(var(--secondary), 0.1), transparent 70%);

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import styles from "../homepage.module.css";
+import { useTheme } from "../contexts/ThemeContext";
 
 // Close Icon SVG component
 const CloseIcon = () => (
@@ -18,6 +19,7 @@ const CloseIcon = () => (
 export default function AboutButton() {
   const [isAboutPopupVisible, setIsAboutPopupVisible] =
     useState<boolean>(false);
+  const { theme } = useTheme();
 
   // Function to toggle the about popup
   const toggleAboutPopup = () => {
@@ -58,6 +60,7 @@ export default function AboutButton() {
         <div
           className={styles.popup}
           onClick={() => setIsAboutPopupVisible(false)}
+          data-theme={theme}
         >
           <div
             className={styles.popupContent}

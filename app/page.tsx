@@ -4,6 +4,7 @@ import styles from "./homepage.module.css";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { cheatersData, getEvidenceById } from "./data/cheaters";
+import { useTheme } from "./contexts/ThemeContext";
 
 // Close Icon SVG component
 const CloseIcon = () => (
@@ -22,6 +23,7 @@ export default function Home() {
   const [selectedEvidence, setSelectedEvidence] = useState<string | null>(null);
   const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
   const [animateHeader, setAnimateHeader] = useState<boolean>(false);
+  const { theme } = useTheme();
 
   useEffect(() => {
     // Add animation after component mounts for better UX
@@ -54,7 +56,7 @@ export default function Home() {
     <div className={styles.container}>
       {/* Glassy Evidence Popup */}
       {isPopupVisible && selectedEvidence && (
-        <div className={styles.popup} onClick={closeEvidencePopup}>
+        <div className={styles.popup} onClick={closeEvidencePopup} data-theme={theme}>
           <div
             className={styles.popupContent}
             onClick={(e) => e.stopPropagation()}
@@ -158,6 +160,7 @@ export default function Home() {
                 <th className={styles.th}>Vjudge Id</th>
                 <th className={styles.th}>Name</th>
                 <th className={styles.th}>Contest</th>
+                <th className={styles.th}>Punishment</th>
                 <th className={styles.th}>Evidence</th>
               </tr>
             </thead>
@@ -201,6 +204,11 @@ export default function Home() {
                       </a>
                     </td>
                     <td className={styles.td}>
+                      <span className={`${styles.punishment} ${entry.punishment.includes("Permanent") ? styles.permanentBan : ""}`}>
+                        {entry.punishment}
+                      </span>
+                    </td>
+                    <td className={styles.td}>
                       <button
                         className={styles.evidenceButton}
                         onClick={() => {
@@ -217,7 +225,7 @@ export default function Home() {
             ) : (
               <tbody>
                 <tr>
-                  <td colSpan={7} className={styles.emptyMessage}>
+                  <td colSpan={8} className={styles.emptyMessage}>
                     No cheaters verified till now
                   </td>
                 </tr>
