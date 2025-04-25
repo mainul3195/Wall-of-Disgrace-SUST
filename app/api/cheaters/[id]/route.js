@@ -1,19 +1,11 @@
 import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
-import { Cheater, Evidence } from '../../../../models/Cheater';
+import { Cheater, Evidence } from '../../../../models/Cheater.js';
 
-/**
- * Database connection state tracker
- * This boolean flag keeps track of whether we've already established a MongoDB connection
- * Initially set to false, indicating no connection has been made yet
- */
+// Database connection state tracker
 let isConnected = false;
 
-/**
- * Database connection function
- * This asynchronous function manages the connection to MongoDB
- * It implements connection pooling by reusing an existing connection if available
- */
+// Database connection function
 const connectToDatabase = async () => {
   if (isConnected) return;
   try {
@@ -26,20 +18,12 @@ const connectToDatabase = async () => {
   }
 };
 
-/**
- * GET API Handler for individual cheater retrieval
- * This function handles HTTP GET requests to the /api/cheaters/[id] endpoint
- * It provides a way to fetch a specific cheater record by its unique ID
- * 
- * @param {Request} request - The incoming HTTP request object containing headers, method, etc.
- * @param {Object} context - Next.js context object containing route parameters and other data
- * @returns {NextResponse} - A JSON response containing the cheater and evidence data or an error
- */
-export async function GET(request, context) {
+// GET handler for retrieving a cheater by ID
+export async function GET(request, props) {
+  const params = await props.params;
   try {
     await connectToDatabase();
     
-    const params = await context.params;
     const id = params.id;
     
     const numericId = parseInt(id, 10);
@@ -71,20 +55,12 @@ export async function GET(request, context) {
   }
 }
 
-/**
- * PUT API Handler for updating cheater information
- * This function handles HTTP PUT requests to the /api/cheaters/[id] endpoint
- * It allows updating both the cheater data and their associated evidence
- * 
- * @param {Request} request - The incoming HTTP request object containing the update data in JSON format
- * @param {Object} context - Next.js context object containing route parameters
- * @returns {NextResponse} - A JSON response containing the updated data or an error message
- */
-export async function PUT(request, context) {
+// PUT handler for updating a cheater by ID
+export async function PUT(request, props) {
+  const params = await props.params;
   try {
     await connectToDatabase();
     
-    const params = await context.params;
     const id = params.id;
     
     const numericId = parseInt(id, 10);
@@ -144,20 +120,12 @@ export async function PUT(request, context) {
   }
 }
 
-/**
- * DELETE API Handler for removing cheater records
- * This function handles HTTP DELETE requests to the /api/cheaters/[id] endpoint
- * It deletes both the cheater record and its associated evidence
- * 
- * @param {Request} request - The incoming HTTP request object
- * @param {Object} context - Next.js context object containing route parameters
- * @returns {NextResponse} - A JSON response confirming deletion or describing an error
- */
-export async function DELETE(request, context) {
+// DELETE handler for removing a cheater by ID
+export async function DELETE(request, props) {
+  const params = await props.params;
   try {
     await connectToDatabase();
     
-    const params = await context.params;
     const id = params.id;
     
     const numericId = parseInt(id, 10);

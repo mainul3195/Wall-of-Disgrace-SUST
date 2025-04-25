@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
-import { Cheater, Evidence } from '../../../models/Cheater';
+import { Cheater, Evidence } from '../../../models/Cheater.js';
 
 // Connect to MongoDB once
 let isConnected = false;

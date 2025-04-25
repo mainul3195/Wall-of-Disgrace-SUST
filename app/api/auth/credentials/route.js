@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import mongoose from 'mongoose';
-import { Admin } from '../../../../models/Admin';
+import { Admin } from '../../../../models/Admin.js';
 
 // Connect to MongoDB once
 let isConnected = false;

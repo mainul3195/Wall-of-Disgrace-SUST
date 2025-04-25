@@ -119,4 +119,4 @@ CheaterSchema.statics = {
 
 // Only create models if they don't exist (prevents errors in Next.js hot reload)
 export const Cheater = mongoose.models.Cheater || mongoose.model('Cheater', CheaterSchema);
-export const Evidence = mongoose.models.Evidence || mongoose.model('Evidence', EvidenceSchema);
+export const Evidence = mongoose.models.Evidence || mongoose.model('Evidence', EvidenceSchema); 

@@ -176,7 +176,7 @@ export default function Home() {
         </p>
         
         <div className={styles.motto}>
-          <p>Uphold integrity. Compete fairly. Or don't compete at all.</p>
+          <p>Uphold integrity. Compete fairly. Or don&apos;t compete at all.</p>
         </div>
         
         <div className={styles.buttonContainer}>
