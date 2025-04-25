@@ -87,7 +87,7 @@ export default function AboutButton() {
                 >
                   Mehedi
                 </a>
-                , further designed and developed by{" "}
+                , designed and developed by{" "}
                 <a
                   href="https://mainul3195.vercel.app/"
                   target="_blank"
