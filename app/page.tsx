@@ -3,7 +3,6 @@ import Image from "next/image";
 import styles from "./homepage.module.css";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { cheatersData, getEvidenceById } from "./data/cheaters";
 import { useTheme } from "./contexts/ThemeContext";
 
 // Close Icon SVG component
@@ -24,10 +23,46 @@ export default function Home() {
   const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
   const [animateHeader, setAnimateHeader] = useState<boolean>(false);
   const { theme } = useTheme();
+  const [cheatersData, setCheatersData] = useState<{
+    id: number;
+    date: string;
+    codeforcesId: string;
+    vjudgeId: string;
+    name: string;
+    contest: string;
+    punishment: string;
+    evidence: string;
+  }[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [evidence, setEvidence] = useState<{
+    title: string;
+    submissionUrl: string;
+    details: string[];
+  } | null>(null);
 
   useEffect(() => {
     // Add animation after component mounts for better UX
     setAnimateHeader(true);
+    
+    // Fetch cheaters data from API
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/cheaters');
+        if (!response.ok) {
+          throw new Error('Failed to fetch cheaters data');
+        }
+        const data = await response.json();
+        setCheatersData(data.cheaters || []);
+        setLoading(false);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred');
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
   }, []);
 
   // Handle body scroll locking when popups are open
@@ -50,6 +85,27 @@ export default function Home() {
   const closeEvidencePopup = () => {
     setIsPopupVisible(false);
     setSelectedEvidence(null);
+    setEvidence(null);
+  };
+
+  // Function to fetch evidence by ID
+  const fetchEvidence = async (evidenceId: string) => {
+    try {
+      // Find the cheater with this evidence ID
+      const cheater = cheatersData.find(c => c.evidence === evidenceId);
+      if (cheater) {
+        const response = await fetch(`/api/cheaters/${cheater.id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setEvidence(data.evidence);
+        } else {
+          throw new Error('Failed to fetch evidence');
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching evidence:', err);
+      setError('Failed to load evidence details');
+    }
   };
 
   return (
@@ -61,9 +117,7 @@ export default function Home() {
             className={styles.popupContent}
             onClick={(e) => e.stopPropagation()}
           >
-            {(() => {
-              const evidence = getEvidenceById(selectedEvidence);
-              return evidence ? (
+            {evidence ? (
                 <>
                   <div className={styles.popupHeader}>
                     <h2>{evidence.title}</h2>
@@ -77,16 +131,16 @@ export default function Home() {
                   </div>
                   <div className={styles.popupBody}>
                     <p>
-                      <span className="font-bold">Cheating Evidence:</span>{" "}
+                    <span className="font-bold">Cheating Evidence:</span>{" "}
                       <a
-                        href={evidence.submissionUrl}
+                      href={evidence.submissionUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {evidence.submissionUrl}
+                      {evidence.submissionUrl}
                       </a>
                     </p>
-                    {evidence.details.map((detail, index) => (
+                  {evidence.details.map((detail: string, index: number) => (
                       <p key={index}>{detail}</p>
                     ))}
                   </div>
@@ -100,8 +154,7 @@ export default function Home() {
                     </button>
                   </div>
                 </>
-              ) : null;
-            })()}
+            ) : <div className={styles.loading}>Loading evidence...</div>}
           </div>
         </div>
       )}
@@ -121,6 +174,11 @@ export default function Home() {
           CP community groups. Note that account holders are responsible for all
           actions performed with their account.
         </p>
+        
+        <div className={styles.motto}>
+          <p>Uphold integrity. Compete fairly. Or don't compete at all.</p>
+        </div>
+        
         <div className={styles.buttonContainer}>
           <button
             className={styles.reportButton}
@@ -151,6 +209,11 @@ export default function Home() {
           />
         </div>
         <div className={styles.tableContainer}>
+          {loading ? (
+            <div className={styles.loading}>Loading cheaters data...</div>
+          ) : error ? (
+            <div className={styles.error}>{error}</div>
+          ) : (
           <table className={styles.table}>
             <thead className={styles.thead}>
               <tr className={styles.tr}>
@@ -160,7 +223,7 @@ export default function Home() {
                 <th className={styles.th}>Vjudge Id</th>
                 <th className={styles.th}>Name</th>
                 <th className={styles.th}>Contest</th>
-                <th className={styles.th}>Punishment</th>
+                  <th className={styles.th}>Punishment</th>
                 <th className={styles.th}>Evidence</th>
               </tr>
             </thead>
@@ -171,14 +234,16 @@ export default function Home() {
                     <td className={styles.td}>{entry.id}</td>
                     <td className={styles.td}>{entry.date}</td>
                     <td className={styles.td}>
+                        {entry.codeforcesId ? (
                       <a
                         className={styles.link}
                         href={entry.codeforcesId}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {entry.codeforcesId.split("/").pop()}
+                            {entry.codeforcesId.includes('/') ? entry.codeforcesId.split("/").pop() : entry.codeforcesId}
                       </a>
+                        ) : '-'}
                     </td>
                     <td className={styles.td}>
                       <a
@@ -187,7 +252,7 @@ export default function Home() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {entry.vjudgeId.split("/").pop()}
+                          {entry.vjudgeId.includes('/') ? entry.vjudgeId.split("/").pop() : entry.vjudgeId}
                       </a>
                     </td>
                     <td className={styles.td}>
@@ -200,19 +265,20 @@ export default function Home() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {entry.contest.split("/").pop()}
+                          {entry.contest.includes('/') ? entry.contest.split("/").pop() : entry.contest}
                       </a>
                     </td>
-                    <td className={styles.td}>
-                      <span className={`${styles.punishment} ${entry.punishment.includes("Permanent") ? styles.permanentBan : ""}`}>
-                        {entry.punishment}
-                      </span>
-                    </td>
+                      <td className={styles.td}>
+                        <span className={`${styles.punishment} ${entry.punishment.includes("Permanent") ? styles.permanentBan : ""}`}>
+                          {entry.punishment}
+                        </span>
+                      </td>
                     <td className={styles.td}>
                       <button
                         className={styles.evidenceButton}
                         onClick={() => {
                           setSelectedEvidence(entry.evidence);
+                            fetchEvidence(entry.evidence);
                           setIsPopupVisible(true);
                         }}
                       >
@@ -225,13 +291,14 @@ export default function Home() {
             ) : (
               <tbody>
                 <tr>
-                  <td colSpan={8} className={styles.emptyMessage}>
+                    <td colSpan={8} className={styles.emptyMessage}>
                     No cheaters verified till now
                   </td>
                 </tr>
               </tbody>
             )}
           </table>
+          )}
         </div>
       </div>
 
@@ -240,6 +307,9 @@ export default function Home() {
           © {new Date().getFullYear()} SUST Competitive Programming Community.
           All rights reserved.
         </p>
+        <Link href="/admin" className={styles.adminLink}>
+          Admin Panel
+        </Link>
       </footer>
     </div>
   );

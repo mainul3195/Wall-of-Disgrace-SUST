@@ -91,9 +91,9 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ClientThemeProvider>
-          <AboutButton />
-          {children}
-          <Analytics />
+        <AboutButton />
+        {children}
+        <Analytics />
         </ClientThemeProvider>
       </body>
     </html>

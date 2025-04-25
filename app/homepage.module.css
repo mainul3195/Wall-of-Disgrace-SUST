@@ -230,6 +230,62 @@
     margin-right: auto;
 }
 
+.motto {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+    margin: 10px auto 30px;
+    padding: 20px;
+    border-top: 1px solid var(--borderColor);
+    border-bottom: 1px solid var(--borderColor);
+    background: var(--softBg);
+    border-radius: 8px;
+    color: var(--primaryColor);
+    max-width: 800px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px var(--shadowColor);
+    position: relative;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.motto p {
+    margin: 0;
+    font-style: italic;
+}
+
+.motto::before,
+.motto::after {
+    content: '"';
+    font-size: 32px;
+    color: var(--accentColor);
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    opacity: 0.5;
+}
+
+.motto::before {
+    top: 10px;
+    left: 10px;
+}
+
+.motto::after {
+    bottom: 10px;
+    right: 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .appologyButton {
     border: none;
     cursor: pointer;
@@ -873,6 +929,38 @@
     padding: 1.5rem;
     text-align: center;
     margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.adminLink {
+    color: var(--softTextColor);
+    font-size: 14px;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.adminLink::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background: var(--softTextColor);
+    transition: width 0.3s ease;
+}
+
+.adminLink:hover {
+    opacity: 1;
+}
+
+.adminLink:hover::after {
+    width: 100%;
 }
 
 .attribution {
@@ -965,7 +1053,8 @@
     .container {
         padding-left: 5%;
         padding-right: 5%;
-        gap: 25px;
+        padding-top: 40px;
+        gap: 30px;
     }
 
     .upperPart, 
@@ -976,17 +1065,23 @@
     }
     
     .listImage {
-        width: 200px;
+        height: 120px;
+        width: auto;
     }
     
     .heading {
-        font-size: 24px;
+        font-size: 28px;
     }
     
     .dangerHeading {
-        font-size: 24px;
-        padding: 8px 16px;
-        letter-spacing: 0.5px;
+        font-size: 28px;
+        letter-spacing: 0;
+    }
+    
+    .motto {
+        font-size: 20px;
+        padding: 15px;
+        margin: 10px auto 25px;
     }
     
     .warningIcon {
@@ -1038,21 +1133,25 @@
 
 @media (max-width: 576px) {
     .container {
-        padding-left: 5%;
-        padding-right: 5%;
-        padding-top: 3%;
-        gap: 30px;
+        padding-left: 4%;
+        padding-right: 4%;
+        padding-top: 30px;
+        gap: 25px;
+        margin: 0;
+        width: 100%;
     }
 
     .upperPart, 
     .middlePart, 
     .lowerPart,
     .footer {
-        padding: 1.5rem;
+        padding: 1.2rem;
+        border-radius: 12px;
     }
     
     .listImage {
-        width: 180px;
+        height: 100px;
+        width: auto;
     }
     
     .heading {
@@ -1060,14 +1159,27 @@
     }
     
     .dangerHeading {
-        font-size: 20px;
-        padding: 8px 12px;
+        font-size: 24px;
+        padding: 10px 15px;
+        letter-spacing: 0;
         width: 90%;
-        max-width: 320px;
+    }
+    
+    .motto {
+        font-size: 18px;
+        padding: 12px;
+        margin: 10px auto 20px;
+        width: 90%;
+    }
+    
+    .motto::before,
+    .motto::after {
+        font-size: 24px;
     }
     
     .warningIcon {
-        font-size: 18px;
+        font-size: 14px;
+        margin: 0 3px;
     }
 
     .description {
@@ -1148,22 +1260,24 @@
     .container {
         padding-left: 3%;
         padding-right: 3%;
-        gap: 25px;
+        padding-top: 20px;
+        gap: 20px;
     }
     
     .aboutIconContainer {
-        bottom: 10px;
-        right: 10px;
+        bottom: 15px;
+        right: 15px;
     }
     
     .aboutIcon {
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
     }
     
     .listImage {
-        width: 150px;
+        height: 80px;
+        width: auto;
     }
     
     .heading {
@@ -1171,18 +1285,30 @@
     }
     
     .dangerHeading {
-        font-size: 18px;
-        letter-spacing: 0;
+        font-size: 20px;
         padding: 8px 10px;
+        width: 95%;
+    }
+    
+    .motto {
+        font-size: 16px;
+        padding: 10px;
+        margin: 5px auto 15px;
+        width: 95%;
+    }
+    
+    .motto::before,
+    .motto::after {
+        font-size: 20px;
     }
     
     .warningIcon {
-        margin: 0 3px;
-        font-size: 16px;
+        font-size: 12px;
+        margin: 0 2px;
     }
 
     .description {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .appologyButton, 
