@@ -88,23 +88,60 @@ export default function Home() {
     setEvidence(null);
   };
 
+  // Function to sanitize evidence data
+  const sanitizeEvidence = (evidence: Record<string, unknown> | null | undefined): {
+    title: string;
+    submissionUrl: string;
+    details: string[];
+  } | null => {
+    if (!evidence) return null;
+    
+    return {
+      title: String(evidence.title || "Evidence Details"),
+      submissionUrl: String(evidence.submissionUrl || "#"),
+      details: Array.isArray(evidence.details) 
+        ? evidence.details.map(item => String(item))
+        : (evidence.details ? [String(evidence.details)] : [])
+    };
+  };
+
   // Function to fetch evidence by ID
   const fetchEvidence = async (evidenceId: string) => {
     try {
+      setError(null); // Clear any previous errors
+      
       // Find the cheater with this evidence ID
       const cheater = cheatersData.find(c => c.evidence === evidenceId);
-      if (cheater) {
-        const response = await fetch(`/api/cheaters/${cheater.id}`);
-        if (response.ok) {
-          const data = await response.json();
-          setEvidence(data.evidence);
-        } else {
-          throw new Error('Failed to fetch evidence');
-        }
+      
+      if (!cheater) {
+        console.error('No cheater found with evidence ID:', evidenceId);
+        throw new Error('Failed to find cheater with this evidence ID');
       }
+      
+      console.log('Fetching evidence for cheater ID:', cheater.id);
+      const response = await fetch(`/api/cheaters/${cheater.id}`);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('API error:', errorData);
+        throw new Error(errorData.message || 'Failed to fetch evidence');
+      }
+      
+      const data = await response.json();
+      console.log('Response data:', data);
+      
+      // Sanitize evidence data
+      const sanitizedEvidence = sanitizeEvidence(data.evidence);
+      
+      if (!sanitizedEvidence) {
+        throw new Error('Evidence data not found or invalid');
+      }
+      
+      console.log('Processed evidence data:', sanitizedEvidence);
+      setEvidence(sanitizedEvidence);
     } catch (err) {
       console.error('Error fetching evidence:', err);
-      setError('Failed to load evidence details');
+      setError(err instanceof Error ? err.message : 'Failed to load evidence details');
     }
   };
 
@@ -154,7 +191,47 @@ export default function Home() {
                     </button>
                   </div>
                 </>
-            ) : <div className={styles.loading}>Loading evidence...</div>}
+            ) : (
+              <>
+                <div className={styles.popupHeader}>
+                  <h2>Evidence Details</h2>
+                  <button
+                    className={styles.closeButton}
+                    onClick={closeEvidencePopup}
+                    aria-label="Close"
+                  >
+                    ×
+                  </button>
+                </div>
+                <div className={styles.popupBody}>
+                  {error ? (
+                    <div className={styles.error}>
+                      <p>⚠️ {error}</p>
+                      <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+                        <button 
+                          className={styles.closeButtonBottom}
+                          onClick={() => selectedEvidence && fetchEvidence(selectedEvidence)}
+                          style={{ backgroundColor: '#4a90e2' }}
+                        >
+                          Retry
+                        </button>
+                        <button 
+                          className={styles.closeButtonBottom}
+                          onClick={closeEvidencePopup}
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className={styles.loading}>
+                      <p>Loading evidence...</p>
+                      <p>Please wait while we fetch the details.</p>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

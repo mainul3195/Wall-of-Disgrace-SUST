@@ -232,6 +232,13 @@
   width: 100%;
 }
 
+/* Style for dropdown options in dark mode */
+.container[data-theme="dark"] .select option {
+  background-color: #222;
+  color: #f0f0f0;
+  border: none;
+}
+
 .input:focus,
 .select:focus,
 .textarea:focus {

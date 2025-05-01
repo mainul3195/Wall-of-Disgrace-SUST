@@ -252,9 +252,46 @@ export default function AdminPage() {
     }
   };
 
+  const sanitizeEvidenceData = (evidence: Record<string, unknown> | null | undefined): {
+    id: string;
+    title: string;
+    submissionUrl: string;
+    details: string[];
+  } | null => {
+    if (!evidence) return null;
+    
+    // Ensure evidence has all required fields
+    const sanitized = {
+      id: String(evidence.id || ""),
+      title: String(evidence.title || ""),
+      submissionUrl: String(evidence.submissionUrl || ""),
+      details: [] as string[]
+    };
+    
+    // Handle details field - ensure it's an array of strings
+    if (evidence.details) {
+      if (Array.isArray(evidence.details)) {
+        sanitized.details = evidence.details.map(item => String(item));
+      } else if (typeof evidence.details === 'string') {
+        // If it's a single string, convert to array
+        sanitized.details = [evidence.details];
+      } else {
+        // Try to convert to string if it's something else
+        try {
+          sanitized.details = [String(evidence.details)];
+        } catch {
+          sanitized.details = [];
+        }
+      }
+    }
+    
+    return sanitized;
+  };
+
   const handleEdit = async (id: number) => {
     try {
       setLoading(true);
+      setError(null);
       
       // Fetch cheater and evidence details
       const response = await fetch(`/api/cheaters/${id}`);
@@ -265,30 +302,46 @@ export default function AdminPage() {
       }
       
       const data = await response.json();
+      console.log('Edit data received:', data);
+      
       const { cheater, evidence } = data;
       
-      if (!cheater || !evidence) {
-        throw new Error('Invalid data received from server');
+      if (!cheater) {
+        throw new Error('Invalid data received from server: Cheater not found');
       }
       
-      // Set form data with cheater details
+      // Set form data with cheater details (with fallbacks)
       setFormData({
-        date: cheater.date,
+        date: cheater.date || new Date().toISOString().split('T')[0],
         codeforcesId: cheater.codeforcesId || "",
-        vjudgeId: cheater.vjudgeId,
-        name: cheater.name,
-        contest: cheater.contest,
-        punishment: cheater.punishment,
-        evidence: cheater.evidence
+        vjudgeId: cheater.vjudgeId || "",
+        name: cheater.name || "",
+        contest: cheater.contest || "",
+        punishment: cheater.punishment || "Permanent Ban",
+        evidence: cheater.evidence || ""
       });
       
-      // Set evidence form data
-      setEvidenceForm({
-        id: evidence.id,
-        title: evidence.title,
-        submissionUrl: evidence.submissionUrl,
-        details: evidence.details.join('\n')
-      });
+      // Sanitize and validate evidence data
+      const sanitizedEvidence = sanitizeEvidenceData(evidence);
+      
+      if (sanitizedEvidence) {
+        // Set evidence form data
+        setEvidenceForm({
+          id: sanitizedEvidence.id,
+          title: sanitizedEvidence.title,
+          submissionUrl: sanitizedEvidence.submissionUrl,
+          details: sanitizedEvidence.details.join('\n')
+        });
+      } else {
+        // Create default evidence form if none exists
+        setEvidenceForm({
+          id: `evidence_${id}`,
+          title: "Cheating Evidence",
+          submissionUrl: "",
+          details: ""
+        });
+        console.warn('No valid evidence found, using default values');
+      }
       
       // Set mode to edit and store selected ID
       setMode("edit");
@@ -297,7 +350,9 @@ export default function AdminPage() {
       // Scroll to form
       document.getElementById('cheaterForm')?.scrollIntoView({ behavior: 'smooth' });
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+      console.error('Edit error:', errorMessage);
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -629,6 +684,8 @@ export default function AdminPage() {
                   className={styles.select}
                 >
                   <option value="Permanent Ban">Permanent Ban</option>
+                  <option value="2 Year Ban">2 Year Ban</option>
+                  <option value="1 Year Ban">1 Year Ban</option>
                   <option value="6 Month Ban">6 Month Ban</option>
                   <option value="3 Month Ban">3 Month Ban</option>
                   <option value="1 Month Ban">1 Month Ban</option>
