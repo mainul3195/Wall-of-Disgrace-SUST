@@ -22,7 +22,7 @@ export default function AddCheaterForm() {
       name: '',
       contest: '',
       evidence: '',
-      punishment: '1 Year Ban'
+      punishment: 'Permanent Ban'
     },
     evidence: {
       id: '',
@@ -31,6 +31,41 @@ export default function AddCheaterForm() {
       details: ['']
     }
   });
+
+  // Fetch the latest cheater ID when component mounts
+  useEffect(() => {
+    const fetchLatestId = async () => {
+      try {
+        const response = await fetch('/api/cheaters?limit=1');
+        const data = await response.json();
+        
+        if (data.cheaters && data.cheaters.length > 0) {
+          // Set the next available ID (latest ID + 1)
+          const nextId = data.cheaters[0].id + 1;
+          setFormData(prev => ({
+            ...prev,
+            cheater: {
+              ...prev.cheater,
+              id: nextId.toString()
+            }
+          }));
+        } else {
+          // If no cheaters exist, start with ID 1
+          setFormData(prev => ({
+            ...prev,
+            cheater: {
+              ...prev.cheater,
+              id: '1'
+            }
+          }));
+        }
+      } catch (error) {
+        console.error('Error fetching latest ID:', error);
+      }
+    };
+
+    fetchLatestId();
+  }, []);
 
   // Handle dialog close
   const handleClose = () => {
@@ -131,12 +166,19 @@ export default function AddCheaterForm() {
     setError('');
     
     try {
-      // Convert cheater ID to number if provided
+      // Generate a unique evidence ID based on name and date
+      const evidenceId = `evidence_${formData.cheater.name.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
+      
+      // Prepare data with converted cheater ID and generated evidence ID
       const dataToSubmit = {
         ...formData,
         cheater: {
           ...formData.cheater,
-          id: formData.cheater.id ? parseInt(formData.cheater.id, 10) : ''
+          id: parseInt(formData.cheater.id, 10)
+        },
+        evidence: {
+          ...formData.evidence,
+          id: evidenceId
         }
       };
       
